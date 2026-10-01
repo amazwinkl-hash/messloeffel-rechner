@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Messlöffel-Rechner</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+
+            background: linear-gradient(135deg, #f7efe3, #e8ddd0);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+
+            background: white;
+            border-radius: 28px;
+
+            padding: 30px 25px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .icon {
+            text-align: center;
+            font-size: 55px;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0;
+
+            font-size: 30px;
+            color: #333;
+        }
+
+        .beschreibung {
+            text-align: center;
+            color: #777;
+            font-size: 16px;
+
+            margin: 8px 0 30px;
+        }
+
+        .eingabe {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 16px;
+
+            font-size: 20px;
+
+            border: 2px solid #ddd;
+            border-radius: 14px;
+
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #9b8065;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 17px;
+
+            border: none;
+            border-radius: 14px;
+
+            background: #6f5742;
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .ergebnis {
+            margin-top: 25px;
+
+            padding: 22px;
+
+            background: #f5eee6;
+
+            border-radius: 20px;
+
+            text-align: center;
+        }
+
+        .ergebnis-titel {
+            font-size: 17px;
+            color: #777;
+
+            margin-bottom: 12px;
+        }
+
+        .ergebnis-zeile {
+            font-size: 26px;
+            font-weight: bold;
+
+            margin: 8px 0;
+
+            color: #3c3026;
+        }
+
+        .info {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #999;
+            font-size: 13px;
+        }
+
+        .fehler {
+            color: #b3261e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="icon">🥄</div>
+
+    <h1>Messlöffel-Rechner</h1>
+
+    <div class="beschreibung">
+        Gewicht in Esslöffel und Teelöffel umrechnen
+    </div>
+
+
+    <div class="eingabe">
+
+        <label for="kg">
+            Kilogramm
+        </label>
+
+        <input
+            type="number"
+            id="kg"
+            min="0"
+            step="1"
+            value="0"
+            placeholder="z. B. 1"
+        >
+
+    </div>
+
+
+    <div class="eingabe">
+
+        <label for="gramm">
+            Gramm
+        </label>
+
+        <input
+            type="number"
+            id="gramm"
+            min="0"
+            step="1"
+            value="0"
+            placeholder="z. B. 310"
+        >
+
+    </div>
+
+
+    <button onclick="berechnen()">
+        Berechnen
+    </button>
+
+
+    <div class="ergebnis">
+
+        <div class="ergebnis-titel">
+            Ergebnis
+        </div>
+
+        <div class="ergebnis-zeile" id="essloeffel">
+            0 Esslöffel
+        </div>
+
+        <div class="ergebnis-zeile" id="teeloeffel">
+            0 Teelöffel
+        </div>
+
+    </div>
+
+
+    <div class="info">
+        1 Esslöffel = 15 g &nbsp;•&nbsp; 1 Teelöffel = 5 g
+    </div>
+
+</div>
+
+
+<script>
+
+function berechnen() {
+
+    let kg = Number(document.getElementById("kg").value);
+    let gramm = Number(document.getElementById("gramm").value);
+
+
+    // Kilogramm in Gramm umrechnen
+    kg = kg * 1000;
+
+
+    // Gesamtgewicht berechnen
+    let gesamt = kg + gramm;
+
+
+    // Prüfen, ob eine gültige Zahl eingegeben wurde
+    if (gesamt < 0 || isNaN(gesamt)) {
+
+        document.getElementById("essloeffel").innerHTML =
+            "Ungültige Eingabe";
+
+        document.getElementById("teeloeffel").innerHTML = "";
+
+        return;
+    }
+
+
+    // 1 Esslöffel = 15 g
+    let essloeffel = Math.floor(gesamt / 15);
+
+
+    // Rest nach den Esslöffeln
+    let rest = gesamt % 15;
+
+
+    // 1 Teelöffel = 5 g
+    let teeloeffel = Math.floor(rest / 5);
+
+
+    // Ergebnis anzeigen
+    document.getElementById("essloeffel").innerHTML =
+        essloeffel + " Esslöffel";
+
+
+    document.getElementById("teeloeffel").innerHTML =
+        teeloeffel + " Teelöffel";
+}
+
+</script>
+
+</body>
+</html>
